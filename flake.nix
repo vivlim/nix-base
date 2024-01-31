@@ -4,13 +4,21 @@
     nixpkgs = { url = "github:NixOS/nixpkgs/nixos-23.11"; };
     unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nixpkgs-unstable-tailscale.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    home-manager = {
+      url = "github:nix-community/home-manager/release-23.11";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nixos-generators = {
       url = "github:nix-community/nixos-generators";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    vivlim-nix-home = {
+      url = "github:vivlim/nix-home/main";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = inputs@{ self, nixpkgs, unstable, nixpkgs-unstable-tailscale, nixos-generators, ... }:
+  outputs = inputs@{ self, nixpkgs, unstable, nixpkgs-unstable-tailscale, home-manager, nixos-generators, vivlim-nix-home, ... }:
     let
       # configuration = { pkgs, ... }: { nix.package = pkgs.nixflakes; }; # doesn't do anything?
       overlay = final: prev: {
@@ -35,6 +43,17 @@
             inherit overlays;
           };
         });
+      homeManagerConfig = name: ({ config, pkgs, system, lib, utils, ... }@args: # this does not work yet
+        home-manager.nixosModules.home-manager {
+          inherit pkgs;
+          inherit lib;
+          inherit utils;
+          config = {
+            home-manager.users.vivlim = {
+            } // (lib.attrsets.mergeAttrsList (lib.lists.forEach vivlim-nix-home.nixosModuleImports."vivlim@dev" (mod: (import mod args))));
+          };
+        }
+      );
       moduleBundles = {
         system-base = [
           ./system-base/core.nix
@@ -85,6 +104,7 @@
           hostname = "nixos-basic";
           modules = [
             moduleBundles.system-base
+            # (homeManagerConfig "vivlim@dev") this doesn't work
           ];
         });
         gui = (machineFactory {
@@ -120,6 +140,10 @@
       in devShellForEachSupportedSystem ({ pkgs, system }: {
         default = pkgs.mkShell {
           packages = let
+            build-basic = pkgs.writeShellScriptBin "build-basic" ''
+              nix build .#nixosConfigurations.basic.config.system.build.vm
+              ./result/bin/run-nixos-basic-vm 
+            '';
             build-gui = pkgs.writeShellScriptBin "build-gui" ''
               nix build .#nixosConfigurations.gui.config.system.build.vm
               ./result/bin/run-nixos-gui-vm 
@@ -127,6 +151,7 @@
           in [
             pkgs.nil
             pkgs.nixfmt
+            build-basic
             build-gui
           ];
         };
