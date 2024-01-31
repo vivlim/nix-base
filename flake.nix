@@ -87,7 +87,19 @@
             moduleBundles.system-base
           ];
         });
+        gui = (machineFactory {
+          system = "x86_64-linux";
+          hostname = "nixos-gui";
+          modules = [
+            moduleBundles.system-base
+            moduleBundles.plasma-desktop
+            moduleBundles.system-physical
+            moduleBundles.gaming-hardware
+          ];
+        });
         amdgui = (machineFactory {
+          system = "x86_64-linux";
+          hostname = "nixos-amdgui";
           modules = [
             moduleBundles.system-base
             moduleBundles.plasma-desktop
@@ -98,5 +110,27 @@
         });
       };
       inherit moduleBundles;
+
+      devShells = let
+        devShellSupportedSystems = [ "x86_64-linux" "aarch64-linux" "x86_64-darwin" "aarch64-darwin" ];
+        devShellForEachSupportedSystem = f: nixpkgs.lib.genAttrs devShellSupportedSystems (system: f {
+          pkgs = import nixpkgs { inherit system; inherit overlays; };
+          inherit system;
+        });
+      in devShellForEachSupportedSystem ({ pkgs, system }: {
+        default = pkgs.mkShell {
+          packages = let
+            build-gui = pkgs.writeShellScriptBin "build-gui" ''
+              nix build .#nixosConfigurations.gui.config.system.build.vm
+              ./result/bin/run-nixos-gui-vm 
+            '';
+          in [
+            pkgs.nil
+            pkgs.nixfmt
+            build-gui
+          ];
+        };
+      });
     };
+
 }
