@@ -79,6 +79,9 @@
           };
         };
     in {
+      inherit moduleBundles;
+      inherit machineFactory;
+
       nixosConfigurations = {
         basic = (machineFactory {
           system = "x86_64-linux";
@@ -109,7 +112,6 @@
           ];
         });
       };
-      inherit moduleBundles;
 
       devShells = let
         devShellSupportedSystems = [ "x86_64-linux" "aarch64-linux" "x86_64-darwin" "aarch64-darwin" ];
