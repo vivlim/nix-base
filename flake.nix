@@ -35,12 +35,16 @@
             inherit overlays;
           };
         });
-      moduleBundles = {
+      moduleBundles =
+      rec {
         system-base = [
           ./system-base/core.nix
           ./system-base/ssh.nix
           ./system-base/user.nix
-        ];
+        ] ++ nixosModules;
+        server-base = [
+          ./system-base/glances.nix
+        ] ++ system-base;
         system-physical = [
           ./system-physical/networkmanager.nix
           ./system-physical/systemd-boot-efi.nix
@@ -58,6 +62,9 @@
           ./desktop/pulseaudio.nix
           ./applications/flatpak.nix
           ./applications/nix-ld.nix
+        ];
+        nixosModules = [ # 'true' nixos modules that don't do anything on their own but add configuration options that machines can use.
+          ./modules/prometheus_exporters.nix
         ];
       };
       src = ./.;
