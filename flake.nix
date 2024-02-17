@@ -60,6 +60,7 @@
           ./applications/nix-ld.nix
         ];
       };
+      src = ./.;
       machineFactory =
       { modules, system, hostname, ... }: 
         nixpkgs.lib.nixosSystem {
