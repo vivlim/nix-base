@@ -15,6 +15,7 @@
         modules = [
           disko.nixosModules.disko
           ./configuration.nix
+          ./samba.nix
           base.moduleBundles.server-base
         ];
       };

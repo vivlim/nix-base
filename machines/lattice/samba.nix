@@ -1,7 +1,7 @@
 { modulesPath, config, lib, pkgs, ... }: {
-  config.system.activationScripts.createLemmyContainerPaths =
+  system.activationScripts.createSmbShare =
     pkgs.lib.stringAfter [ "var" ] ''
-      mkdir /mnt/data/smbshare
+      mkdir -p /mnt/data/smbshare
     '';
 
   services.samba-wsdd = {
@@ -13,6 +13,7 @@
   services.samba = {
     enable = true;
     securityType = "user";
+    openFirewall = true;
     extraConfig = ''
       workgroup = WORKGROUP
       server string = lattice
@@ -21,7 +22,7 @@
       #use sendfile = yes
       #max protocol = smb2
       # note: localhost is the ipv6 localhost ::1
-      hosts allow = 192.168.0. 127.0.0.1 localhost
+      hosts allow = 192.168.1. 100.123. 127.0.0.1 localhost
       hosts deny = 0.0.0.0/0
       guest account = nobody
       map to guest = bad user
@@ -34,8 +35,6 @@
         "guest ok" = "no";
         "create mask" = "0664";
         "directory mask" = "0775";
-        "force user" = "username";
-        "force group" = "groupname";
       };
     };
   };

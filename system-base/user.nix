@@ -14,6 +14,10 @@
     ];
   };
 
+  users.groups.vivlim = {
+    members = ["vivlim"];
+  };
+
   users.users.root = {
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICSY5IGCDVT+F1A1FMB7KMwDK2kg8JGVA9gkO8FyfRWR vivlim@id_ed25519_admin"
