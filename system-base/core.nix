@@ -8,6 +8,8 @@
     git
     wget
     rsync
+    htop
+    tmux
   ];
 
   # Enable nix flakes
