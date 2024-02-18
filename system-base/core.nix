@@ -1,5 +1,5 @@
 
-{ pkgs, ... }: {
+{ pkgs, inputs, ... }: {
   time.timeZone = "America/Vancouver";
   i18n.defaultLocale = "en_US.UTF-8";
 
@@ -12,12 +12,18 @@
     tmux
   ];
 
-  # Enable nix flakes
   nix = {
+    # Enable nix flakes
     package = pkgs.nixFlakes;
     extraOptions = ''
       experimental-features = nix-command flakes
     '';
+
+    # Use system flake's nixpkgs input for nix cli tools, instead of channels
+    # Needed to be able to use e.g. nix-shell on target machines.
+    nixPath = [
+      "nixpkgs=${inputs.nixpkgs}"
+    ];
   };
 
   system.stateVersion = "23.11"; # Did you read the comment?

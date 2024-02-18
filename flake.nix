@@ -70,7 +70,7 @@
         ];
       };
       machineFactory =
-      { modules, system, hostname, ... }: 
+      { modules, system, hostname, inputs, ... }: 
         nixpkgs.lib.nixosSystem {
           inherit system;
           modules = nixpkgs.lib.lists.flatten [
@@ -89,7 +89,7 @@
         };
 
       colmenaTargetFactory =
-      ({ modules, system, hostname, ... }: 
+      ({ modules, system, hostname, inputs, ... }: 
         {
           networking.hostName = hostname;
           imports = nixpkgs.lib.lists.flatten modules;
@@ -104,6 +104,7 @@
         basic = (machineFactory {
           system = "x86_64-linux";
           hostname = "nixos-basic";
+          inherit inputs;
           modules = [
             moduleBundles.system-base
           ];
@@ -111,6 +112,7 @@
         gui = (machineFactory {
           system = "x86_64-linux";
           hostname = "nixos-gui";
+          inherit inputs;
           modules = [
             moduleBundles.system-base
             moduleBundles.plasma-desktop
@@ -121,6 +123,7 @@
         amdgui = (machineFactory {
           system = "x86_64-linux";
           hostname = "nixos-amdgui";
+          inherit inputs;
           modules = [
             moduleBundles.system-base
             moduleBundles.plasma-desktop
@@ -135,6 +138,9 @@
         pc-efi = nixos-generators.nixosGenerate {
           system = "x86_64-linux";
           format = "raw-efi";
+          specialArgs = {
+            inherit inputs;
+          };
           modules = nixpkgs.lib.lists.flatten [
             moduleBundles.system-base
             moduleBundles.plasma-desktop
