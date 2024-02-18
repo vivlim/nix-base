@@ -3,13 +3,15 @@
     "base": {
       "inputs": {
         "nixos-generators": "nixos-generators",
-        "nixpkgs": "nixpkgs",
+        "nixpkgs": [
+          "nixpkgs"
+        ],
         "nixpkgs-unstable-tailscale": "nixpkgs-unstable-tailscale",
         "unstable": "unstable"
       },
       "locked": {
         "lastModified": 0,
-        "narHash": "sha256-wJHlc+ZFVGGRoWw5KBSnugPrNlo2phAHUpuPq/sfay4=",
+        "narHash": "sha256-TS/uIG9+hogMwWftyGUYjcZJ8t73g6EVChnL5Eew8YU=",
         "path": "../../",
         "type": "path"
       },
@@ -21,7 +23,7 @@
     "disko": {
       "inputs": {
         "nixpkgs": [
-          "base"
+          "nixpkgs"
         ]
       },
       "locked": {
@@ -86,8 +88,8 @@
       },
       "original": {
         "owner": "NixOS",
-        "ref": "nixos-23.11",
         "repo": "nixpkgs",
+        "rev": "d65bceaee0fb1e64363f7871bc43dc1c6ecad99f",
         "type": "github"
       }
     },
@@ -111,9 +113,7 @@
       "inputs": {
         "base": "base",
         "disko": "disko",
-        "nixpkgs": [
-          "base"
-        ]
+        "nixpkgs": "nixpkgs"
       }
     },
     "unstable": {

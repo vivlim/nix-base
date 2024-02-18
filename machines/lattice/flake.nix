@@ -1,10 +1,11 @@
 {
   inputs.base = {
     url = "path:../../";
+    inputs.nixpkgs.follows = "nixpkgs";
   };
-  inputs.nixpkgs.follows = "base";
+  inputs.nixpkgs.url = "github:NixOS/nixpkgs/d65bceaee0fb1e64363f7871bc43dc1c6ecad99f"; # nixos-23.11, from root flake. colmena won't evaluate inputs.nixpkgs.follows = "base" correctly.
   inputs.disko.url = "github:nix-community/disko";
-  inputs.disko.inputs.nixpkgs.follows = "base";
+  inputs.disko.inputs.nixpkgs.follows = "nixpkgs";
 
   outputs = { base, nixpkgs, disko, ... }:
   let
