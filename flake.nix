@@ -41,6 +41,7 @@
           ./system-base/core.nix
           ./system-base/ssh.nix
           ./system-base/user.nix
+          ./applications/tools.nix
         ] ++ nixosModules;
         server-base = [
           ./system-base/glances.nix
@@ -62,6 +63,7 @@
           ./desktop/pulseaudio.nix
           ./applications/flatpak.nix
           ./applications/nix-ld.nix
+          ./applications/gui-tools.nix
         ];
         nixosModules = [ # 'true' nixos modules that don't do anything on their own but add configuration options that machines can use.
           ./modules/prometheus_exporters.nix
@@ -119,6 +121,23 @@
             moduleBundles.gaming-hardware
           ];
         });
+      };
+
+      packages.x86_64-linux = {
+        pc-efi = nixos-generators.nixosGenerate {
+          system = "x86_64-linux";
+          format = "raw-efi";
+          modules = nixpkgs.lib.lists.flatten [
+            moduleBundles.system-base
+            moduleBundles.plasma-desktop
+            moduleBundles.system-physical
+            moduleBundles.gaming-hardware
+            ({ config, pkgs, ... }: {
+              networking.hostName = "viv-nixos-graphical-efi";
+              boot.growPartition = true; # Make the rootfs bigger if there's space
+            })
+          ];
+        };
       };
 
       devShells = let
