@@ -69,7 +69,6 @@
           ./modules/prometheus_exporters.nix
         ];
       };
-      src = ./.;
       machineFactory =
       { modules, system, hostname, ... }: 
         nixpkgs.lib.nixosSystem {
@@ -88,9 +87,18 @@
             };
           };
         };
+
+      colmenaTargetFactory =
+      ({ modules, system, hostname, ... }: 
+        {
+          networking.hostName = hostname;
+          imports = nixpkgs.lib.lists.flatten modules;
+        });
     in {
       inherit moduleBundles;
       inherit machineFactory;
+      inherit colmenaTargetFactory;
+      src = ./.;
 
       nixosConfigurations = {
         basic = (machineFactory {
