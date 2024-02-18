@@ -19,12 +19,16 @@
 
   system.stateVersion = "23.11";
 
+  networking.firewall.allowedTCPPorts = [ 80 ];
   services.nginx = {
     enable = true;
     virtualHosts."lattice.lan.vvn.space" = {
       default = true;
       locations."/" = {
-        alias = "/mnt/data/smbshare/www";
+        alias = "/mnt/data/smbshare/www/";
+        extraConfig = ''
+          autoindex on;
+        '';
       };
     };
   };

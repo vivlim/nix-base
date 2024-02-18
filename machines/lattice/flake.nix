@@ -7,7 +7,7 @@
   inputs.disko.url = "github:nix-community/disko";
   inputs.disko.inputs.nixpkgs.follows = "nixpkgs";
 
-  outputs = { base, nixpkgs, disko, ... }:
+  outputs = inputs@{ base, nixpkgs, disko, ... }:
   let
     machineFactoryArgs = {
         hostname = "lattice";
@@ -18,6 +18,7 @@
           ./samba.nix
           base.moduleBundles.server-base
         ];
+        inherit inputs;
       };
 
   in
@@ -28,6 +29,9 @@
         meta = {
           nixpkgs = import nixpkgs {
             system = "x86_64-linux";
+          };
+          specialArgs = {
+            inherit inputs;
           };
         };
         lattice = (base.colmenaTargetFactory machineFactoryArgs)
