@@ -9,5 +9,7 @@
     xkcdpass
     p7zip
     jq
+    unar
+    mc
   ];
 }
