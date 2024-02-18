@@ -18,4 +18,14 @@
   ];
 
   system.stateVersion = "23.11";
+
+  services.nginx = {
+    enable = true;
+    virtualHosts."lattice.lan.vvn.space" = {
+      default = true;
+      locations."/" = {
+        alias = "/mnt/data/smbshare/www";
+      };
+    };
+  };
 }
