@@ -11,5 +11,6 @@
     jq
     unar
     mc
+    sysz # tui for systemd
   ];
 }
