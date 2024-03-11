@@ -2,7 +2,7 @@
 {
   disko.devices = {
     disk.disk1 = {
-      device = "/dev/disk/by-id/ata-TS32GMTS400S_F562050310"; # 32gb ssd
+      device = "/dev/disk/by-id/nvme-CT1000P3PSSD8_2321E6DB8ADE"; # 32gb ssd
       type = "disk";
       content = {
         type = "gpt";
@@ -22,12 +22,21 @@
               mountpoint = "/boot";
             };
           };
-          root = {
+          luks = {
             name = "root";
             size = "100%";
             content = {
-              type = "lvm_pv";
-              vg = "pool";
+              type = "luks";
+              name = "nixos-encrypted";
+              extraOpenArgs = [];
+              settings = {
+                allowDiscards = true;
+                # Not specifying a passwordFile lets me interactively enter a password
+              };
+              content = {
+                type = "lvm_pv";
+                vg = "pool";
+              };
             };
           };
         };
@@ -39,7 +48,7 @@
         type = "lvm_vg";
         lvs = {
           root = {
-            size = "100%FREE";
+            size = "500G"; # expand later if needed
             content = {
               type = "filesystem";
               format = "ext4";
