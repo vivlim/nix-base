@@ -10,7 +10,7 @@
   outputs = inputs@{ base, nixpkgs, disko, ... }:
   let
     machineFactoryArgs = {
-        hostname = "x250-micro";
+        hostname = "apiary";
         system = "x86_64-linux";
         modules = [
           disko.nixosModules.disko
@@ -25,7 +25,7 @@
 
   in
     {
-      nixosConfigurations.x250-micro = base.machineFactory machineFactoryArgs;
+      nixosConfigurations.apiary = base.machineFactory machineFactoryArgs;
 
       colmena = {
         meta = {
@@ -36,9 +36,9 @@
             inherit inputs;
           };
         };
-        x250-micro = (base.colmenaTargetFactory machineFactoryArgs)
+        apiary = (base.colmenaTargetFactory machineFactoryArgs)
         // {
-            deployment.targetHost = "192.168.1.228";
+            deployment.targetHost = "192.168.1.177";
             deployment.targetUser = "root";
         };
       };

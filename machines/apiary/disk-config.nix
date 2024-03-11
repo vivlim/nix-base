@@ -2,7 +2,7 @@
 {
   disko.devices = {
     disk.disk1 = {
-      device = "/dev/disk/by-id/nvme-CT1000P3PSSD8_2321E6DB8ADE"; # 32gb ssd
+      device = "/dev/disk/by-id/nvme-CT1000P3PSSD8_2321E6DB8ADE"; # 1tb ssd
       type = "disk";
       content = {
         type = "gpt";
