@@ -10,6 +10,8 @@
     rsync
     htop
     tmux
+    file
+    dnsutils
   ];
 
   nix = {

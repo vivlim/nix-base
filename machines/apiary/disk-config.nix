@@ -24,7 +24,7 @@
           };
           luks = {
             name = "root";
-            size = "100%";
+            size = "100%FREE";
             content = {
               type = "luks";
               name = "nixos-encrypted";
