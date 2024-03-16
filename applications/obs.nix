@@ -10,7 +10,7 @@
         obs-gstreamer
         input-overlay
         obs-3d-effect
-        obs-composite-blur
+        #obs-composite-blur # not on 23.11
         obs-gradient-source
         obs-vkcapture # Launch games with `obs-gamecapture %command%` to capture.
         waveform
