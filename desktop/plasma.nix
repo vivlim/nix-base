@@ -13,5 +13,8 @@
     catppuccin-kde
     catppuccin-kvantum
     libsForQt5.qtstyleplugin-kvantum
+    wl-clipboard
   ];
+
+  programs.partition-manager.enable = true;
 }
