@@ -8,13 +8,14 @@
       url = "github:nix-community/nixos-generators";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    vscode-server.url = "github:nix-community/nixos-vscode-server";
   };
 
-  outputs = inputs@{ self, nixpkgs, unstable, nixpkgs-unstable-tailscale, nixos-generators, ... }:
+  outputs = inputs@{ self, nixpkgs, unstable, nixpkgs-unstable-tailscale, nixos-generators, vscode-server, ... }:
     let
       # configuration = { pkgs, ... }: { nix.package = pkgs.nixflakes; }; # doesn't do anything?
       overlay = final: prev: {
-        tailscale = nixpkgs-unstable-tailscale.legacyPackages.${prev.system}.tailscale;
+        unstable-tailscale = nixpkgs-unstable-tailscale.legacyPackages.${prev.system}.tailscale;
         unstable = import unstable {
           system = prev.system;
           config = { # need to set config for each of these channels separately.
@@ -71,6 +72,12 @@
         obs = [ # todo: refactor to enumerate the modules so i can pick and choose individually.
           ./applications/obs.nix
         ];
+        dev = [
+          vscode-server.nixosModules.default
+          ({ config, pkgs, ... }: {
+            services.vscode-server.enable = true;
+          })
+        ];
       };
       machineFactory =
       { modules, system, hostname, inputs, ... }: 
@@ -110,6 +117,7 @@
           inherit inputs;
           modules = [
             moduleBundles.system-base
+            moduleBundles.dev
           ];
         });
         gui = (machineFactory {
