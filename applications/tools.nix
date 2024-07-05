@@ -12,5 +12,6 @@
     unar
     mc
     sysz # tui for systemd
+    unzip
   ];
 }
