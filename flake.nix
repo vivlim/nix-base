@@ -69,6 +69,7 @@
         ];
         nixosModules = [ # 'true' nixos modules that don't do anything on their own but add configuration options that machines can use.
           ./modules/prometheus_exporters.nix
+          ./modules/swap_defaults.nix
         ];
         obs = [ # todo: refactor to enumerate the modules so i can pick and choose individually.
           ./applications/obs.nix

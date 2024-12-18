@@ -10,6 +10,11 @@
       ./hardware-configuration.nix
     ];
 
+  viv.defaultSwap = {
+    enable = true;
+    swapfileSize = 1024*6;
+  };
+
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
