@@ -74,6 +74,7 @@
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJuZBK29Xd5/b6YKxvhglVj/ExUpxTLjALQc0y3UnSaZ vivlim@armaduke"
     ];
   };
+  nix.settings.trusted-users = [ "vivlim" ];
 
   # programs.firefox.enable = true;
 

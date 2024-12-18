@@ -13,15 +13,15 @@
   let
     modules = [
       ./configuration.nix
+      ./remotebuild.nix
       base.moduleBundles.system-base
     ];
   in
     {
       nixosConfigurations.armaduke = base.machineFactory {
         hostname = "armaduke";
-        system = "x86_64-linux";
-        modules = [
-        ];
+        system = "aarch64-linux";
+        inherit modules;
         inherit inputs;
       };
     };
