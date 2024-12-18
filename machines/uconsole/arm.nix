@@ -7,4 +7,12 @@
   disabledModules = [
     "profiles/base.nix"
   ];
+
+  # allow build to pass without all modules being present
+  nixpkgs.overlays = [
+    (final: super: {
+      makeModulesClosure = x:
+        super.makeModulesClosure (x // {allowMissing = true;});
+    })
+  ];
 }
