@@ -1,5 +1,5 @@
 
-{ pkgs, inputs, ... }: {
+{ pkgs, lib, inputs, ... }: {
   time.timeZone = "America/Vancouver";
   i18n.defaultLocale = "en_US.UTF-8";
 
@@ -16,7 +16,7 @@
 
   nix = {
     # Enable nix flakes
-    package = pkgs.nixFlakes;
+    package = pkgs.nixStable;
     extraOptions = ''
       experimental-features = nix-command flakes
     '';
@@ -28,6 +28,6 @@
     ];
   };
 
-  system.stateVersion = "23.11"; # Did you read the comment?
+  system.stateVersion = lib.mkDefault "23.11"; # Did you read the comment?
 
 }
