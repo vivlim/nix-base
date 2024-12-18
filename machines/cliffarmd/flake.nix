@@ -34,7 +34,7 @@
             inherit inputs;
           };
         };
-        apiary = (base.colmenaTargetFactory factoryArgs)
+        cliffarmd = (base.colmenaTargetFactory factoryArgs)
         // {
             deployment.targetHost = "cliffarmd";
             deployment.targetUser = "root";
