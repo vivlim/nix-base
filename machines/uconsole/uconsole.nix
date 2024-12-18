@@ -3,8 +3,28 @@
 { lib, pkgs, oom-hardware, ... }: let
   inherit (lib) mkDefault;
 in 
-
 {
+    # Exclude more stuff from kernel
+    boot.kernelPatches = [
+      {
+        name = "remove-unneeded-stuff";
+        patch = null;
+        extraStructuredConfig = with lib; {
+          DRM_AMDGPU = kernel.no;
+          DRM_AMDGPU_CIK = mkForce (kernel.option kernel.no);
+          DRM_AMDGPU_SI = mkForce (kernel.option kernel.no);
+          DRM_AMDGPU_USERPTR = mkForce (kernel.option kernel.no);
+          DRM_AMD_DC_FP = mkForce (kernel.option kernel.no);
+          DRM_AMD_DC_SI = mkForce (kernel.option kernel.no);
+          HSA_AMD = mkForce (kernel.option kernel.no);
+          DRM_NOUVEAU = kernel.no;
+          DRM_RADEON = kernel.no;
+          DRM_GMA500 = mkForce kernel.no;
+          FIREWIRE = kernel.no;
+        };
+      }
+    ];
+
     hardware.raspberry-pi."4" = {
       xhci.enable = mkDefault false;
       dwc2.enable = mkDefault true;
