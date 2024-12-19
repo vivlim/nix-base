@@ -14,7 +14,9 @@
       speedFactor = 2;
       sshUser = "vivlim";
       sshKey = "/home/vivlim/.ssh/id_ed25519";
-      supportedFeatures = [ "kvm" "big-parallel" "nixos-test" ];
+      #supportedFeatures = [ "kvm" "big-parallel" "nixos-test" ];
+      supportedFeatures = [ "big-parallel"];
+      mandatoryFeatures = [ "big-parallel" ];
     }];
   };
   programs.ssh.knownHosts."cliffarmd.cow-bebop.ts.net".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPl5/zeKGaOxQiF1A31XGpygVa1YBJWeZDRyzpcPI/3s";

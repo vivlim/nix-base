@@ -31,12 +31,14 @@
         pwm_sample_bits=20
       '';
     in ''
+      set -x
       echo "build dir: $NIX_BUILD_TOP"
-      ls -lah $NIX_BUILD_TOP
+      ls -lah $NIX_BUILD_TOP/firmware
+      chmod 777 firmware/*
+      rm firmware/*
       cp ${pkgs.raspberrypifw}/share/raspberrypi/boot/bootcode.bin $NIX_BUILD_TOP/firmware
       cp ${pkgs.raspberrypifw}/share/raspberrypi/boot/fixup*.dat $NIX_BUILD_TOP/firmware
       cp ${pkgs.raspberrypifw}/share/raspberrypi/boot/start*.elf $NIX_BUILD_TOP/firmware
-      ls -lah $NIX_BUILD_TOP
 
       # Add the config
       cp ${configTxt} firmware/config.txt
@@ -45,6 +47,7 @@
       cp ${pkgs.ubootRaspberryPi4_64bit}/u-boot.bin firmware/u-boot-rpi4.bin
       cp ${pkgs.raspberrypi-armstubs}/armstub8-gic.bin firmware/armstub8-gic.bin
       cp ${pkgs.raspberrypifw}/share/raspberrypi/boot/bcm2711-rpi-cm4.dtb firmware/
+      ls -lah $NIX_BUILD_TOP/firmware
     '';
     populateRootCommands = ''
       mkdir -p ./files/boot
