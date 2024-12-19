@@ -16,7 +16,6 @@
     modules = [
           ./configuration.nix
           ./uconsole.nix
-          ./sdimage.nix
           ./substituter.nix
           ./arm.nix
           base.moduleBundles.system-base
@@ -32,20 +31,37 @@
             ];
           })
         ];
-  in {
-      nixosConfigurations.aarchduke = base.machineFactory {
+    machineFactoryArgs = {
         hostname = "aarchduke";
         system = "aarch64-linux";
-        inherit modules;
+        modules = modules ++ [./hwconfig-nonsdimage.nix];
         inherit inputs;
       };
+  in {
+      nixosConfigurations.aarchduke = base.machineFactory machineFactoryArgs;
 
       sdImage = nixos-generators.nixosGenerate {
         system = "aarch64-linux";
         format = "sd-aarch64";
-        modules = nixpkgs.lib.lists.flatten modules;
+        modules = nixpkgs.lib.lists.flatten modules ++ [./sdimage.nix];
         specialArgs = {
           inherit inputs;
+        };
+      };
+
+      colmena = {
+        meta = {
+          nixpkgs = import nixpkgs {
+            system = "aarch64-linux";
+          };
+          specialArgs = {
+            inherit inputs;
+          };
+        };
+        aarchduke = (base.colmenaTargetFactory machineFactoryArgs)
+        // {
+            deployment.targetHost = "aarchduke.cow-bebop.ts.net";
+            deployment.targetUser = "root";
         };
       };
     };
