@@ -85,14 +85,14 @@
         librsvg
         xorg.libXft
         libvdpau
-        gnome2.pango
+        pango
         cairo
         atk
         gdk-pixbuf
         fontconfig
         freetype
         dbus
-        alsaLib
+        alsa-lib
         expat
 
         icu

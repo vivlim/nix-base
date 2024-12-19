@@ -17,6 +17,7 @@
   # Set your time zone.
   time.timeZone = "America/Vancouver";
 
+  security.sudo.wheelNeedsPassword = false;
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";

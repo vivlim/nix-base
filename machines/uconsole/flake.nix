@@ -16,9 +16,12 @@
     modules = [
           ./configuration.nix
           ./uconsole.nix
+          ./sdimage.nix
           ./substituter.nix
           ./arm.nix
           base.moduleBundles.system-base
+          base.moduleBundles.plasma-desktop
+          base.moduleBundles.gaming-hardware
           nixos-hardware.nixosModules.raspberry-pi-4
           oom-hardware.uconsole.kernel
           oom-hardware.raspberry-pi.overlays

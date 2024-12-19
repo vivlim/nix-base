@@ -61,11 +61,15 @@
         plasma-desktop = [
           ./desktop/core.nix
           ./desktop/plasma.nix
-          ./desktop/pulseaudio.nix
-          ./applications/flatpak.nix
           ./applications/nix-ld.nix
           ./applications/gui-tools.nix
           ./applications/vlc.nix
+        ];
+        plasma-desktop-full = plasma-desktop ++ [
+          ./applications/flatpak.nix
+        ];
+        pulseaudio = [
+          ./desktop/pulseaudio.nix
         ];
         nixosModules = [ # 'true' nixos modules that don't do anything on their own but add configuration options that machines can use.
           ./modules/prometheus_exporters.nix

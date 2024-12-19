@@ -1,7 +1,7 @@
 {pkgs, lib, ...}:{
-  services.xserver.displayManager.sddm.enable = lib.mkDefault true;
-  services.xserver.displayManager.defaultSession = lib.mkDefault "plasmawayland";
-  services.xserver.desktopManager.plasma5.enable = lib.mkDefault true;
+  services.displayManager.sddm.enable = lib.mkDefault true;
+  services.displayManager.defaultSession = lib.mkDefault "plasma";
+  services.desktopManager.plasma6.enable = lib.mkDefault true;
 
   programs.kdeconnect.enable = lib.mkDefault true;
 

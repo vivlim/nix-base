@@ -4,6 +4,28 @@
   inherit (lib) mkDefault;
 in 
 {
+  boot.supportedFilesystems.zfs = lib.mkForce false;
+  boot.consoleLogLevel = lib.mkDefault 7;
+  console = {
+    earlySetup = true;
+    font = "ter-v32n";
+    packages = with pkgs; [terminus_font];
+  };
+  boot.kernelParams = [
+    "8250.nr_uarts=1"
+    "vc_mem.mem_base=0x3ec00000"
+    "vc_mem.mem_size=0x20000000"
+    "console=ttyS0,115200"
+    "console=tty1"
+    "plymouth.ignore-serial-consoles"
+    "snd_bcm2835.enable_hdmi=1"
+    "snd_bcm2835.enable_headphones=1"
+    "psi=1"
+    "iommu=force"
+    "iomem=relaxed"
+    "swiotlb=131072"
+  ];
+
     # Exclude more stuff from kernel
     boot.kernelPatches = [
       {
@@ -79,4 +101,3 @@ in
       SUBSYSTEM=="spidev", KERNEL=="spidev0.0", GROUP="spi", MODE="0660"
     '';
 }
-

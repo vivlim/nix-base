@@ -13,7 +13,7 @@
   let
     modules = [
       ./configuration.nix
-      ./remotebuild.nix
+      #./remotebuild.nix
       base.moduleBundles.system-base
     ];
   in
