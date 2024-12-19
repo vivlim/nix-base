@@ -14,6 +14,7 @@
     modules = [
       ./configuration.nix
       ./remotebuild.nix
+      ./remotebuilder.nix
       base.moduleBundles.system-base
     ];
   in

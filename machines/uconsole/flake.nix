@@ -17,6 +17,7 @@
           ./configuration.nix
           ./uconsole.nix
           ./substituter.nix
+          ./remotebuild.nix
           ./arm.nix
           base.moduleBundles.system-base
           base.moduleBundles.plasma-desktop
