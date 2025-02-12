@@ -1,8 +1,8 @@
 {
   description = "viv's nixos client base";
   inputs = { # update a single input; nix flake lock --update-input unstable
-    nixpkgs = { url = "github:NixOS/nixpkgs/nixos-24.11"; };
-    unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    nixpkgs = { url = "github:NixOS/nixpkgs/nixos-unstable"; };
+    unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixos-generators = {
       url = "github:nix-community/nixos-generators";
       inputs.nixpkgs.follows = "nixpkgs";
