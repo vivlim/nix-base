@@ -1,9 +1,8 @@
 {
   description = "viv's nixos client base";
   inputs = { # update a single input; nix flake lock --update-input unstable
-    nixpkgs = { url = "github:NixOS/nixpkgs/nixos-23.11"; };
+    nixpkgs = { url = "github:NixOS/nixpkgs/nixos-24.11"; };
     unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    nixpkgs-unstable-tailscale.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nixos-generators = {
       url = "github:nix-community/nixos-generators";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -11,11 +10,10 @@
     vscode-server.url = "github:nix-community/nixos-vscode-server";
   };
 
-  outputs = inputs@{ self, nixpkgs, unstable, nixpkgs-unstable-tailscale, nixos-generators, vscode-server, ... }:
+  outputs = inputs@{ self, nixpkgs, unstable, nixos-generators, vscode-server, ... }:
     let
       # configuration = { pkgs, ... }: { nix.package = pkgs.nixflakes; }; # doesn't do anything?
       overlay = final: prev: {
-        unstable-tailscale = nixpkgs-unstable-tailscale.legacyPackages.${prev.system}.tailscale;
         unstable = import unstable {
           system = prev.system;
           config = { # need to set config for each of these channels separately.
@@ -110,7 +108,7 @@
           networking.hostName = hostname;
           imports = nixpkgs.lib.lists.flatten modules;
         });
-    in {
+    in rec {
       inherit moduleBundles;
       inherit machineFactory;
       inherit colmenaTargetFactory;
@@ -169,6 +167,23 @@
             })
           ];
         };
+        # just used to test whether the flake can build a system.
+        toplevel = (machineFactory {
+          system = "x86_64-linux";
+          hostname = "nixos-basic";
+          inherit inputs;
+          modules = [
+            moduleBundles.system-base
+            moduleBundles.dev
+            {
+              fileSystems."/" = {
+                device = "/dev/null";
+                fsType = "ext4";
+              };
+              boot.loader.grub.device = "/dev/null";
+            }
+          ];
+        }).config.system.build.toplevel;
       };
 
       devShells = let
