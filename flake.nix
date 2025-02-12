@@ -59,9 +59,14 @@
         plasma-desktop = [
           ./desktop/core.nix
           ./desktop/plasma.nix
-          ./applications/nix-ld.nix
           ./applications/gui-tools.nix
           ./applications/vlc.nix
+        ];
+        nix-ld = [
+          ./applications/nix-ld.nix
+        ];
+        flatpak = [
+          ./applications/flatpak.nix
         ];
         plasma-desktop-full = plasma-desktop ++ [
           ./applications/flatpak.nix
